@@ -10,12 +10,12 @@ import UIKit
 import Firebase
 
 class DetailViewController: UIViewController {
-    
+
     // detailDescView = Note area
     @IBOutlet weak var detailDescriptionLabel: UITextView!
     var notLoggedIn = true
     var ref: DatabaseReference!
-    var handle: AuthStateDidChangeListenerHandle! = nil
+    fileprivate var handle: AuthStateDidChangeListenerHandle?
     @IBOutlet weak var uploadButton: UIBarButtonItem!
     var savedNote: String = ""
     
@@ -45,17 +45,10 @@ class DetailViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // Listen for Auth State changes
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+        self.handle = Auth.auth().addStateDidChangeListener(self.handleAuthStateChanged(auth:user:))
             
-            if Auth.auth().currentUser != nil {
-                // User is signed in.
-                print("User is logged in")
-            } else {
-                // Login OR Register -- only if their email is not on file
-                print("Not Logged in")
-                self.loginToAccount()
-            }
-            
+        
+            // check for if note exists
 //            self.checkIfNoteExistsInDB(Note: self.detailDescriptionLabel.text!) { (result) in
 //
 //                if result {
@@ -66,6 +59,18 @@ class DetailViewController: UIViewController {
 //                    print("Not in DB - Doing nothing on screen load")
 //                }
 //            }
+    }
+    
+    // MARK: Firebase
+    func handleAuthStateChanged(auth: Auth, user: User?) {
+        if Auth.auth().currentUser != nil {
+            // User is signed in.
+            print("User is logged in")
+        }
+        else {
+            // Login OR Register -- only if their email is not on file
+            print("Not Logged in")
+            self.loginToAccount()
         }
     }
     
@@ -90,7 +95,7 @@ class DetailViewController: UIViewController {
             label.text = objects[currentIndex]
             
             if label.text == BLANK_NOTE {
-                label.text = ""
+                label.text = " "
             }
         }
         // INIT NOTE #7 - After returning from our inital note we end here, on the
@@ -118,8 +123,13 @@ class DetailViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
+        print("DVC - Did Dissappear")
+        
         // End listener for Auth
-        Auth.auth().removeStateDidChangeListener(handle!)
+        if let listenerHandler = self.handle {
+            // prevents crash if unwrapping handle == nil
+            Auth.auth().removeStateDidChangeListener(listenerHandler)
+        }
         
         /*
          BINGO! - this is called when there is no note in the TableView
@@ -136,7 +146,7 @@ class DetailViewController: UIViewController {
         
         //updates the text for the preview of the note on the Table View
         objects[currentIndex] = detailDescriptionLabel.text
-        if detailDescriptionLabel.text == "" {
+        if detailDescriptionLabel.text == " " || detailDescriptionLabel.text == ""  {
             objects[currentIndex] = BLANK_NOTE
         }
         saveAndUpdate()
