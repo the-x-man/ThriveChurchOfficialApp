@@ -24,26 +24,17 @@ extension DetailViewController {
         //let uid = user?.uid
 
         // detect if there is a note of the same text in the DB alerady
-        
-//        checkIfNoteExistsInDB(Note: self.detailDescriptionLabel.text!) { (result) in
-//
-//            if result {
-//                // nothing - it exists already
-//                self.uploadButton.image = #imageLiteral(resourceName: "UploadedToCloud")
-//            }
-//            else {
-//                print("Uploading to FB DB")
-//                //                let note = ["id":key,
-//                //                            "note": self.detailDescriptionLabel.text!,
-//                //                            "takenBy": uid
-//                //                ]
-//                //
-//                //                //adding the note inside the generated key
-//                //                self.ref.child(key).setValue(note)
-//                //                self.uploadButton.image = #imageLiteral(resourceName: "UploadedToCloud")
-//                self.uploadButton.image = #imageLiteral(resourceName: "UploadedToCloud")
-//            }
-//        }
+                print("Uploading to FB DB")
+                //                let note = ["id":key,
+                //                            "note": self.detailDescriptionLabel.text!,
+                //                            "takenBy": uid
+                //                ]
+                //
+                //                //adding the note inside the generated key
+                //                self.ref.child(key).setValue(note)
+                //                self.uploadButton.image = #imageLiteral(resourceName: "UploadedToCloud")
+                self.uploadButton.image = #imageLiteral(resourceName: "UploadedToCloud")
+    
     }
     
     // Fix this to return bool so we can check and assign this in the middle of the viewDidLoad
@@ -220,7 +211,6 @@ extension DetailViewController {
                             // Somewtimes doesn't fully log you in
                             if error == nil {
                                 print("You have successfully signed in")
-                                self.dismiss(animated: true, completion: nil)
                             }
                             else {
                                 let alertController = UIAlertController(title: "Error",

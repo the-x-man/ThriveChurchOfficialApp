@@ -25,13 +25,23 @@ class MasterViewController: UITableViewController {
         
         masterView = self
         // Called when the user Taps "Notes" icon -- buttons are all added before the segue
+        
+        // check login status & then change the icon at the top as needed
+        // checkLoginStatus
+        
         load()
         self.navigationItem.leftBarButtonItem = self.editButtonItem
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add,
                                         target: self,
                                         action: #selector(insertNewObject(_:)))
+        let syncButton = UIBarButtonItem(image: #imageLiteral(resourceName: "UploadToCloud"),
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(syncWithFirebase(_:)))
+
         self.navigationItem.rightBarButtonItem = addButton
+        self.navigationItem.rightBarButtonItem = syncButton
         
     }
     
@@ -173,6 +183,52 @@ class MasterViewController: UITableViewController {
     }
     
     func load() {
+        if let loadedData = UserDefaults.standard.array(forKey: kNotes) as? [String] {
+            objects = loadedData
+            
+        }
+    }
+    
+    // MARK: Firebase
+    func handleAuthStateChanged(auth: Auth, user: User?) {
+        if Auth.auth().currentUser != nil {
+            // User is signed in.
+            print("User is logged in")
+        }
+        else {
+            // Login OR Register -- only if their email is not on file
+            print("Not Logged in")
+            detailViewController?.loginToAccount()
+        }
+    }
+    
+    @objc func syncWithFirebase(_ sender: AnyObject) {
+        
+        // upload all -- checking for duplicates
+        uploadNotesToFirebase()
+        pullNotesFromFirebase()
+        
+        save()
+        //sender.background = #imageLiteral(resourceName: "UploadedToCloud")
+    }
+    
+    func uploadNotesToFirebase() {
+        // while uploading check for duplicates
+        
+        
+        // upload
+        //                let note = ["id":key,
+        //                            "note": self.detailDescriptionLabel.text!,
+        //                            "takenBy": uid
+        //                ]
+        //
+        //                //adding the note inside the generated key
+        //                self.ref.child(key).setValue(note)
+        
+    }
+    
+    func pullNotesFromFirebase() {
+        //refresh the view based on the notes in Firebase
         var row = 0
         ref = Database.database().reference()
         ref.child("notes").queryOrdered(byChild: "id").observe(.childAdded, with: { (snapshot) in
@@ -189,13 +245,9 @@ class MasterViewController: UITableViewController {
                 }
             }
             else {
-                if let loadedData = UserDefaults.standard.array(forKey: kNotes) as? [String] {
-                    objects = loadedData
-                }
+                // do nothing because they aren't your notes
             }
-            
         })
-        save()
     }
     
 }
