@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import Firebase
 
 var objects:[String] = [String]()
 var currentIndex:Int = 0
 var masterView:MasterViewController?
 var detailViewController:DetailViewController?
-
+var ref: DatabaseReference!
 let kNotes:String = "notes"
 let BLANK_NOTE:String = "New Note"
 
@@ -139,7 +140,7 @@ class MasterViewController: UITableViewController {
                                         editingStyle: UITableViewCellEditingStyle,
                                         forRowAt indexPath: IndexPath) {
         
-        // Possibly here is where the deletion is made - kinda obvious
+        // delete the iem from the table --- delete note from the DB
         if editingStyle == .delete {
             objects.remove(at: (indexPath as NSIndexPath).row)
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -172,9 +173,30 @@ class MasterViewController: UITableViewController {
     }
     
     func load() {
-        if let loadedData = UserDefaults.standard.array(forKey: kNotes) as? [String] {
-            objects = loadedData
-        }
+        var row = 0
+        ref = Database.database().reference()
+        ref.child("notes").queryOrdered(byChild: "id").observe(.childAdded, with: { (snapshot) in
+            let noteTakenBy = snapshot.childSnapshot(forPath: "takenBy").value as! String
+            let signedInAs = Auth.auth().currentUser?.uid
+            
+            if noteTakenBy == signedInAs {
+                if let valueDictionary = snapshot.value as? [AnyHashable:String] {
+                    let title = valueDictionary["note"]
+                    objects.insert(title ?? "New Note", at: 0)
+                    self.tableView.insertRows(at: [IndexPath(row: row, section: 0)], with: .automatic)
+                    self.tableView.reloadData()
+                    row += row
+                }
+            }
+            else {
+                if let loadedData = UserDefaults.standard.array(forKey: kNotes) as? [String] {
+                    objects = loadedData
+                }
+            }
+            
+        })
+        
+        
     }
     
 }

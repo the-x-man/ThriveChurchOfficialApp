@@ -145,10 +145,11 @@ class DetailViewController: UIViewController {
         // INIT NOTE #1 - Still nothing happening
         
         //updates the text for the preview of the note on the Table View
-        objects[currentIndex] = detailDescriptionLabel.text
-        if detailDescriptionLabel.text == " " || detailDescriptionLabel.text == ""  {
-            objects[currentIndex] = BLANK_NOTE
-        }
+//        objects[currentIndex] = detailDescriptionLabel.text // NIL Value stored?
+//        if detailDescriptionLabel.text == " " || detailDescriptionLabel.text == ""  {
+//            objects[currentIndex] = BLANK_NOTE
+//        }
+        
         saveAndUpdate()
         // Called wheb the view is returning from the editing view
     }
