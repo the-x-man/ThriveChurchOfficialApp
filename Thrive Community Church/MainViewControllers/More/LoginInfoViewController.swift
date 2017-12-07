@@ -13,7 +13,7 @@ class LoginInfoViewContriller: UIViewController {
     
     @IBOutlet weak var emailLabel: UILabel!
     var ref: DatabaseReference!
-    var handle: AuthStateDidChangeListenerHandle! = nil
+    var handle: AuthStateDidChangeListenerHandle!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +25,10 @@ class LoginInfoViewContriller: UIViewController {
             if Auth.auth().currentUser != nil {
                 self.emailLabel.text = email
             }
-            else if email == "unsubscribe@thrive-fl.org"{
+            // UUID's are used
+            else if email?.range(of:"@thrive-fl.org") != nil {
                 self.emailLabel.text = ""
+                print("They've unsubbed from notifs about an account")
             }
         }
     }
@@ -42,6 +44,8 @@ class LoginInfoViewContriller: UIViewController {
             
             if Auth.auth().currentUser != nil {
                 try! Auth.auth().signOut()
+                // End listener for Auth -- or else the alert below will pop
+                Auth.auth().removeStateDidChangeListener(self.handle!)
                 self.emailLabel.text = "123@example.com"
                 print("Signed Out")
             }
