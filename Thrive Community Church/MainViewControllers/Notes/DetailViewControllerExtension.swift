@@ -220,7 +220,7 @@ extension DetailViewController {
                             // Somewtimes doesn't fully log you in
                             if error == nil {
                                 print("You have successfully signed in")
-                                MasterViewController.load()
+                                self.dismiss(animated: true, completion: nil)
                             }
                             else {
                                 let alertController = UIAlertController(title: "Error",

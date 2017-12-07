@@ -195,8 +195,7 @@ class MasterViewController: UITableViewController {
             }
             
         })
-        
-        
+        save()
     }
     
 }
