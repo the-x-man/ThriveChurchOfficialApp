@@ -127,7 +127,7 @@ extension DetailViewController {
                     // Turn off notifications by registering the user with a fake account
                     // hacky but That's the only thing I could think of to fix the issue of alerts popping all the time
                     let emailID = String(UUID().uuidString.suffix(4))
-                    Auth.auth().signIn(withEmail: "\(emailID)@thrive-fl.org", password: "123456") { (user, error) in
+                    Auth.auth().createUser(withEmail: "\(emailID)@thrive-fl.org", password: "123456") { (user, error) in
                         print("Logged into fake account")
                     }
             })
@@ -217,7 +217,7 @@ extension DetailViewController {
                         print("Account exists - Logging you in")
                         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
                             
-                            // TODO: Not fully logged in -- fix that
+                            // Somewtimes doesn't fully log you in
                             if error == nil {
                                 print("You have successfully signed in")
                             }
