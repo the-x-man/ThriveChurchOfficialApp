@@ -16,6 +16,7 @@ var detailViewController:DetailViewController?
 var ref: DatabaseReference!
 let kNotes:String = "notes"
 let BLANK_NOTE:String = "New Note"
+fileprivate var handle: AuthStateDidChangeListenerHandle?
 
 class MasterViewController: UITableViewController {
     
@@ -49,6 +50,8 @@ class MasterViewController: UITableViewController {
         self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
         // MARK: Back Button
         // Gets called when the user is returning from writing a note
+        
+        handle = Auth.auth().addStateDidChangeListener(self.handleAuthStateChanged(auth:user:))
         
         if objects.count == 0 {
             insertNewObject(self)
@@ -185,7 +188,6 @@ class MasterViewController: UITableViewController {
     func load() {
         if let loadedData = UserDefaults.standard.array(forKey: kNotes) as? [String] {
             objects = loadedData
-            
         }
     }
     
@@ -206,31 +208,63 @@ class MasterViewController: UITableViewController {
         
         // upload all -- checking for duplicates
         uploadNotesToFirebase()
-        pullNotesFromFirebase()
+        //pullNotesFromFirebase()
         
         save()
         //sender.background = #imageLiteral(resourceName: "UploadedToCloud")
+        print("SYNC - Done")
     }
     
     func uploadNotesToFirebase() {
         // while uploading check for duplicates
+        print("SYNC - Uploading")
+        ref = Database.database().reference()
+        let key = ref.childByAutoId().key
         
-        
-        // upload
-        //                let note = ["id":key,
-        //                            "note": self.detailDescriptionLabel.text!,
-        //                            "takenBy": uid
-        //                ]
-        //
-        //                //adding the note inside the generated key
-        //                self.ref.child(key).setValue(note)
+        ref.child("notes").queryOrdered(byChild: "id").observe(.value, with: { (snapshot) in
+            
+            print(snapshot.key)
+      
+            if snapshot.hasChild(key) {
+                // do nothing
+                print("\(snapshot) has child note")
+            }
+//            else {
+//                for object in objects {
+//                    // upload
+//                    let note = ["id":key,
+//                                "note": object,
+//                                "takenBy": Auth.auth().currentUser?.uid
+//                    ]
+//
+//                    //adding the note inside the generated key
+//                    ref.child("notes").child(key).setValue(note)
+//                }
+//            }
+        })
+        ref.child("notes").child(key).child("note")
+            .observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if snapshot.exists() == true {
+                    print("exists")
+                }
+                else {
+                    print("does not exist")
+                }
+            }) { (error) in
+                print(error.localizedDescription)
+        }
+
         
     }
     
     func pullNotesFromFirebase() {
+        print("SYNC - Pulling")
         //refresh the view based on the notes in Firebase
         var row = 0
+        //self.tableView
         ref = Database.database().reference()
+        objects = []
         ref.child("notes").queryOrdered(byChild: "id").observe(.childAdded, with: { (snapshot) in
             let noteTakenBy = snapshot.childSnapshot(forPath: "takenBy").value as! String
             let signedInAs = Auth.auth().currentUser?.uid
@@ -238,6 +272,7 @@ class MasterViewController: UITableViewController {
             if noteTakenBy == signedInAs {
                 if let valueDictionary = snapshot.value as? [AnyHashable:String] {
                     let title = valueDictionary["note"]
+                    
                     objects.insert(title ?? "New Note", at: 0)
                     self.tableView.insertRows(at: [IndexPath(row: row, section: 0)], with: .automatic)
                     self.tableView.reloadData()
@@ -248,6 +283,7 @@ class MasterViewController: UITableViewController {
                 // do nothing because they aren't your notes
             }
         })
+        row = 0
     }
     
 }
