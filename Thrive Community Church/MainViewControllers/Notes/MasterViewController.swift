@@ -27,8 +27,6 @@ class MasterViewController: UITableViewController {
         masterView = self
         // Called when the user Taps "Notes" icon -- buttons are all added before the segue
         
-        // check login status & then change the icon at the top as needed
-        // checkLoginStatus
         
         load()
         self.navigationItem.leftBarButtonItem = self.editButtonItem
@@ -208,7 +206,7 @@ class MasterViewController: UITableViewController {
         
         // upload all -- checking for duplicates
         uploadNotesToFirebase()
-        //pullNotesFromFirebase()
+        pullNotesFromFirebase()
         
         save()
         //sender.background = #imageLiteral(resourceName: "UploadedToCloud")
@@ -218,44 +216,37 @@ class MasterViewController: UITableViewController {
     func uploadNotesToFirebase() {
         // while uploading check for duplicates
         print("SYNC - Uploading")
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("notes")
         let key = ref.childByAutoId().key
         
-        ref.child("notes").queryOrdered(byChild: "id").observe(.value, with: { (snapshot) in
+        ref.queryOrdered(byChild: "id").observeSingleEvent(of: .value, with: { (snapshot) in
             
-            print(snapshot.key)
-      
-            if snapshot.hasChild(key) {
-                // do nothing
-                print("\(snapshot) has child note")
-            }
-//            else {
-//                for object in objects {
-//                    // upload
-//                    let note = ["id":key,
-//                                "note": object,
-//                                "takenBy": Auth.auth().currentUser?.uid
-//                    ]
-//
-//                    //adding the note inside the generated key
-//                    ref.child("notes").child(key).setValue(note)
-//                }
-//            }
-        })
-        ref.child("notes").child(key).child("note")
-            .observeSingleEvent(of: .value, with: { (snapshot) in
+            for snap in snapshot.children {
+                let notesSnap = snap as! DataSnapshot
+                let notesDict = notesSnap.value as! [String:AnyObject]
+                let noteTaken = notesDict["note"] as! String
                 
-                if snapshot.exists() == true {
-                    print("exists")
+                for object in objects {
+                    
+                    if object == noteTaken {
+                        print("Note Exists")
+                    }
+                    else {
+                        print("Note doesn't exist - adding it to the Database")
+                        // upload
+                        let note = ["id":key,
+                                    "note": object,
+                                    "takenBy": Auth.auth().currentUser?.uid
+                        ]
+    
+                        //adding the note inside the generated key
+                        ref.child("notes").child(key).setValue(note)
+                        
+                    }
                 }
-                else {
-                    print("does not exist")
-                }
-            }) { (error) in
-                print(error.localizedDescription)
-        }
+            }
 
-        
+        })
     }
     
     func pullNotesFromFirebase() {
@@ -265,6 +256,7 @@ class MasterViewController: UITableViewController {
         //self.tableView
         ref = Database.database().reference()
         objects = []
+        tableView.reloadData()
         ref.child("notes").queryOrdered(byChild: "id").observe(.childAdded, with: { (snapshot) in
             let noteTakenBy = snapshot.childSnapshot(forPath: "takenBy").value as! String
             let signedInAs = Auth.auth().currentUser?.uid
