@@ -21,9 +21,8 @@ class DetailViewController: UIViewController {
         // Called at application init for notes tab - YES
         
         // INIT NOTE #5 - No
-		configureView()
         saveAndUpdate()
-		
+		configureView()
         
         // segue
         //INIT NOTE #8 - I assume that this is where the code stops.
@@ -84,7 +83,6 @@ class DetailViewController: UIViewController {
             return
         }
 		
-        
         //updates the text for the preview of the note on the Table View
 		
 		// Guard the label to prevent nil from being assigned as the index's label

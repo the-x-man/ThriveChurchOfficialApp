@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, UN
         
         // Registering notifications
 
-        // For iOS 10 display notification (sent via APNS)
+        // Notifications (sent via APNS)
         UNUserNotificationCenter.current().delegate = self
 
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]

@@ -39,16 +39,13 @@ class MasterViewController: UITableViewController {
 		// MARK: Back Button
 		// Gets called when the user is returning from writing a note
 		
+		// automatic segue if there is 0 notes
 		if objects.count == 0 {
 			insertNewObject(self)
 		}
 		
 		save()
-		/*
-		Adding insert new object here in this method is not working - creates an inifinte loop
-		of creating a new table item - but keeps copying the text from other notes to the new one
-		
-		*/
+
 		super.viewWillAppear(animated)
 	}
 	
