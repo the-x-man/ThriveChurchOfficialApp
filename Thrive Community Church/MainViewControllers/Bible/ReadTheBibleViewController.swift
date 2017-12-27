@@ -8,38 +8,65 @@
 
 import UIKit
 
-class Read1JohnViewController: UIViewController, UIWebViewDelegate {
+class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+	
+	
     
-    @IBOutlet weak var loading: UIActivityIndicatorView!
-    @IBOutlet var johnView: UIWebView!
-    
+	@IBOutlet weak var bookPicker: UIPickerView!
+	var bookData: [String] = [String]()
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        johnView.delegate = self
-        loadJohnView()
+		
+		bookPicker.delegate = self
+		bookPicker.dataSource = self
+		
+		// API request to get the books in the bible -- Creating a large array
+		// like this in code seems a little wasteful and time consuming
+		// Will look into POSTMAN
+		bookData = ["Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
+			"Joshua", "Judges", "Ruth", "1 Samuel", "2 Samuel", "1 Kings",
+			"2 Kings","1 Chronicles", "2 Chronicles", "Ezra", "Nehemiah",
+			"Esther","Job","Psalm","Proverbs","Ecclesiastes","Song of Solomon",
+			"Isaiah","Jeremiah","Lamentations","Ezekiel","Daniel","Hosea","Joel",
+			"Amos","Obadiah","Jonah","Micah","Nahum","Habakkuk","Zephaniah","Haggai",
+			"Zechariah","Malachi"]
+		
+
     }
     
-    private func loadJohnView() {
-        let url = URL(string: "https://www.bible.com/bible/59/1jn.1")
-        let request = URLRequest(url: url!)
-        
-        johnView.loadRequest(request)
-    }
-    
+//    private func loadJohnView() {
+//        let url = URL(string: "https://www.bible.com/bible/59/1jn.1")
+//        let request = URLRequest(url: url!)
+//
+//        johnView.loadRequest(request)
+//    }
+//
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    func webViewDidStartLoad(_ webView: UIWebView) {
-        loading.startAnimating()
-        print("Loading....")
-        
-    }
-    
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        loading.stopAnimating()
-        print("Stopped Loading!")
-    }
-    
+	
+	func numberOfComponents(in pickerView: UIPickerView) -> Int {
+		return 1
+	}
+	
+	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+		return bookData.count
+	}
+	
+	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+		return bookData[row]
+	}
+//
+//    func webViewDidStartLoad(_ webView: UIWebView) {
+//        loading.startAnimating()
+//        print("Loading....")
+//
+//    }
+//
+//    func webViewDidFinishLoad(_ webView: UIWebView) {
+//        loading.stopAnimating()
+//        print("Stopped Loading!")
+//    }
+	
 }
