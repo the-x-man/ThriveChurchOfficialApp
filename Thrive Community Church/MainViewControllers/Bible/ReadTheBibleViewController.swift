@@ -18,9 +18,6 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 	var selectedBook: String!
 	var numOfChaptersInBook: Int!
 	
-	struct Passage: Decodable {
-		var message: String?
-	}
 	
 	// structure from the ESV API return
 	// using https://api.esv.org/v3/passage/text/?q=
@@ -63,31 +60,81 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 			chapterData.append(i)
 		}
 		
-		singleJSONItem()
+		fetchJSON()
+		//atteptToConnectToESV()
 	
     }
 	
-	func singleJSONItem() {
+	func fetchJSON() {
+
+		// credentials encoded in base64
+		let authentication = "Token 82f830e656366c954a0ff09dbadc2b61ae583a3f"
+		let authString = String(format: "%@", authentication)
+		let authData = authString.data(using: String.Encoding.utf8)!
+		let base64AuthString = authData.base64EncodedString()
 		
-		// STEP 2 - Fetch JSON from endpoint
+		// create the request
+		let url = URL(string: "http://www.example.com/")!
+		var request = URLRequest(url: url)
+		request.httpMethod = "POST"
+		request.setValue("Basic \(base64AuthString)", forHTTPHeaderField: "Authorization")
+	
 		let jsonURLString = "https://api.esv.org/v3/passage/text/?q=Genesis%201"
-		guard let url = URL(string: jsonURLString) else { return }
-		
+		guard let _ = URL(string: jsonURLString) else { return }
+
 		URLSession.shared.dataTask(with: url) { (data, response, err) in
-			
+
 			guard let data = data else { return }
 			let dataAsString = String(data: data, encoding: .utf8)
-//			print(dataAsString ?? "\nNO DATA")
 			
+			if let httpStatus = response as? HTTPURLResponse {
+				// check status code returned by the http server
+				print("status code = \(httpStatus.statusCode)\n")
+			}
+
 			do {
 				// decode the JOSN and serialize -- Thanks Swit 4 ;)
 				let item = try JSONDecoder().decode(Search.self, from: data)
-				print("Passage: ", item.passages)
+				print(item)
+				print("Canonical: ", item.canonical)
+				
 			} catch let jsonErr {
-				print("Error Serializing: ", jsonErr)
+				print("Error Serializing: \(jsonErr)\n")
 			}
 		}.resume()
 	}
+	
+//	func atteptToConnectToESV() {
+//
+//		// credentials encoded in base64
+//		let authentication = "Token 82f830e656366c954a0ff09dbadc2b61ae583a3f"
+//
+//		let authString = String(format: "%@:%@", authentication)
+//		let authData = authString.data(using: String.Encoding.utf8)!
+//		let base64AuthString = authData.base64EncodedString()
+//
+//		// create the request
+//		let url = URL(string: "http://www.example.com/")!
+//		var request = URLRequest(url: url)
+//		request.httpMethod = "POST"
+//		request.setValue("Basic \(base64AuthString)", forHTTPHeaderField: "Authorization")
+//
+//		//making the request
+//		URLSession.shared.dataTask(with: request) { data, response, error in
+//			guard let data = data, error == nil else {
+//
+//				print("\(String(describing: error))")
+//				return
+//			}
+//			//print("Data = \(data)")
+//
+//			if let httpStatus = response as? HTTPURLResponse {
+//				// check status code returned by the http server
+//				print("status code = \(httpStatus.statusCode)")
+//				print(response ?? "")
+//			}
+//		}.resume()
+//	}
 	
 	func getNumOfChapters() {
 		print("getting chapters")
