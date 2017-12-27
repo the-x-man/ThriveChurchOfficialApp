@@ -18,10 +18,16 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 	var selectedBook: String!
 	var numOfChaptersInBook: Int!
 	
-	struct Data: Decodable {
-		var userId: Int
-		var query: String
-		"canonical": "Genesis 1",
+	struct Passage: Decodable {
+		var message: String?
+	}
+	
+	// structure from the ESV API return
+	// using https://api.esv.org/v3/passage/text/?q=
+	struct Search: Decodable {
+		var query: String?
+		var canonical: String?
+		var passages: [String]
 	}
 	
     override func viewDidLoad() {
@@ -56,8 +62,32 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 		for i in 1...numOfChaptersInBook {
 			chapterData.append(i)
 		}
+		
+		singleJSONItem()
 	
     }
+	
+	func singleJSONItem() {
+		
+		// STEP 2 - Fetch JSON from endpoint
+		let jsonURLString = "https://api.esv.org/v3/passage/text/?q=Genesis%201"
+		guard let url = URL(string: jsonURLString) else { return }
+		
+		URLSession.shared.dataTask(with: url) { (data, response, err) in
+			
+			guard let data = data else { return }
+			let dataAsString = String(data: data, encoding: .utf8)
+//			print(dataAsString ?? "\nNO DATA")
+			
+			do {
+				// decode the JOSN and serialize -- Thanks Swit 4 ;)
+				let item = try JSONDecoder().decode(Search.self, from: data)
+				print("Passage: ", item.passages)
+			} catch let jsonErr {
+				print("Error Serializing: ", jsonErr)
+			}
+		}.resume()
+	}
 	
 	func getNumOfChapters() {
 		print("getting chapters")
