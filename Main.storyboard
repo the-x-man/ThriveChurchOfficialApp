@@ -2356,7 +2356,7 @@
         <!--Bible-->
         <scene sceneID="5Kj-oK-K06">
             <objects>
-                <viewController id="ZGZ-Te-5ru" sceneMemberID="viewController">
+                <viewController id="ZGZ-Te-5ru" customClass="ReadTheBibleViewController" customModule="Thrive_Church_Official_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Rut-Rl-CFV"/>
                         <viewControllerLayoutGuide type="bottom" id="zXk-WX-xiv"/>
@@ -2378,19 +2378,21 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PsW-BF-xwx">
-                                        <rect key="frame" x="5" y="104" width="375" height="110"/>
+                                        <rect key="frame" x="0.0" y="106" width="375" height="130"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" red="0.52091652150000001" green="0.57278048989999997" blue="0.22736778860000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="110" id="8hL-fl-dIN"/>
+                                            <constraint firstAttribute="height" constant="130" id="8hL-fl-dIN"/>
                                         </constraints>
                                     </pickerView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="GBg-Tt-4sQ" firstAttribute="top" secondItem="I4j-0J-HKe" secondAttribute="top" constant="51" id="JYo-og-gZ9"/>
-                                    <constraint firstItem="PsW-BF-xwx" firstAttribute="top" secondItem="I4j-0J-HKe" secondAttribute="top" constant="104" id="Kmg-vF-OaY"/>
-                                    <constraint firstItem="PsW-BF-xwx" firstAttribute="leading" secondItem="I4j-0J-HKe" secondAttribute="leading" constant="5" id="Sf2-Kc-Bx2"/>
+                                    <constraint firstItem="PsW-BF-xwx" firstAttribute="top" secondItem="I4j-0J-HKe" secondAttribute="top" constant="106" id="Kmg-vF-OaY"/>
+                                    <constraint firstItem="PsW-BF-xwx" firstAttribute="leading" secondItem="I4j-0J-HKe" secondAttribute="leading" id="Sf2-Kc-Bx2"/>
                                     <constraint firstItem="GBg-Tt-4sQ" firstAttribute="centerX" secondItem="I4j-0J-HKe" secondAttribute="centerX" id="Wfv-zL-MWl"/>
-                                    <constraint firstItem="PsW-BF-xwx" firstAttribute="trailing" secondItem="I4j-0J-HKe" secondAttribute="trailing" constant="5" id="q89-W2-GPB"/>
+                                    <constraint firstItem="PsW-BF-xwx" firstAttribute="trailing" secondItem="I4j-0J-HKe" secondAttribute="trailing" id="q89-W2-GPB"/>
                                     <constraint firstAttribute="height" constant="667" id="vXN-PM-uu9"/>
                                     <constraint firstItem="GBg-Tt-4sQ" firstAttribute="leading" secondItem="I4j-0J-HKe" secondAttribute="leading" constant="5" id="xd4-8v-t21"/>
                                 </constraints>
@@ -2406,6 +2408,9 @@
                         </constraints>
                     </scrollView>
                     <navigationItem key="navigationItem" title="Bible" id="WCq-OP-vX8"/>
+                    <connections>
+                        <outlet property="bookPicker" destination="PsW-BF-xwx" id="hjp-Lv-lPY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eOk-hR-fqE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
