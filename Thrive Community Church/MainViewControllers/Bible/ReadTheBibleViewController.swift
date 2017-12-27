@@ -18,12 +18,13 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 	var selectedBook: String!
 	var numOfChaptersInBook: Int!
 	
-	
 	// structure from the ESV API return
 	// using https://api.esv.org/v3/passage/text/?q=
 	struct Search: Decodable {
 		var query: String?
 		var canonical: String?
+		// they made the return an array of no name. it's an index I assume then
+		// "passages": [ "\nGenesis 1...", "Genesis 2..." ]
 		var passages: [String]
 	}
 	
