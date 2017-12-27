@@ -2509,13 +2509,36 @@
                                             <constraint firstAttribute="height" constant="130" id="8hL-fl-dIN"/>
                                         </constraints>
                                     </pickerView>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nKF-Be-T4n">
+                                        <rect key="frame" x="0.0" y="307" width="375" height="130"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" red="0.52091652150000001" green="0.57278048989999997" blue="0.22736778860000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="130" id="cOg-k2-u95"/>
+                                        </constraints>
+                                    </pickerView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please select a chapter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDp-zj-yg6">
+                                        <rect key="frame" x="10" y="264" width="365" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="Hce-QH-kgs"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="wDp-zj-yg6" firstAttribute="leading" secondItem="I4j-0J-HKe" secondAttribute="leading" constant="10" id="329-I1-02d"/>
+                                    <constraint firstItem="nKF-Be-T4n" firstAttribute="leading" secondItem="PsW-BF-xwx" secondAttribute="leading" id="6ei-ha-St6"/>
                                     <constraint firstItem="GBg-Tt-4sQ" firstAttribute="top" secondItem="I4j-0J-HKe" secondAttribute="top" constant="51" id="JYo-og-gZ9"/>
                                     <constraint firstItem="PsW-BF-xwx" firstAttribute="top" secondItem="I4j-0J-HKe" secondAttribute="top" constant="106" id="Kmg-vF-OaY"/>
                                     <constraint firstItem="PsW-BF-xwx" firstAttribute="leading" secondItem="I4j-0J-HKe" secondAttribute="leading" id="Sf2-Kc-Bx2"/>
+                                    <constraint firstItem="wDp-zj-yg6" firstAttribute="top" secondItem="PsW-BF-xwx" secondAttribute="bottom" constant="28" id="TgP-64-3YZ"/>
                                     <constraint firstItem="GBg-Tt-4sQ" firstAttribute="centerX" secondItem="I4j-0J-HKe" secondAttribute="centerX" id="Wfv-zL-MWl"/>
+                                    <constraint firstItem="wDp-zj-yg6" firstAttribute="trailing" secondItem="PsW-BF-xwx" secondAttribute="trailing" id="jzW-t5-LsH"/>
+                                    <constraint firstItem="nKF-Be-T4n" firstAttribute="top" secondItem="wDp-zj-yg6" secondAttribute="bottom" constant="8" symbolic="YES" id="myb-Lc-J8W"/>
+                                    <constraint firstItem="wDp-zj-yg6" firstAttribute="trailing" secondItem="nKF-Be-T4n" secondAttribute="trailing" id="nKx-Y1-VHl"/>
                                     <constraint firstItem="PsW-BF-xwx" firstAttribute="trailing" secondItem="I4j-0J-HKe" secondAttribute="trailing" id="q89-W2-GPB"/>
                                     <constraint firstAttribute="height" constant="667" id="vXN-PM-uu9"/>
                                     <constraint firstItem="GBg-Tt-4sQ" firstAttribute="leading" secondItem="I4j-0J-HKe" secondAttribute="leading" constant="5" id="xd4-8v-t21"/>
@@ -2534,6 +2557,7 @@
                     <navigationItem key="navigationItem" title="Bible" id="WCq-OP-vX8"/>
                     <connections>
                         <outlet property="bookPicker" destination="PsW-BF-xwx" id="hjp-Lv-lPY"/>
+                        <outlet property="chapterPicker" destination="nKF-Be-T4n" id="C6n-OO-oJu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eOk-hR-fqE" userLabel="First Responder" sceneMemberID="firstResponder"/>
