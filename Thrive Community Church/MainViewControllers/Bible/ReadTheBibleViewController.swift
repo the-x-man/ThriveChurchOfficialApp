@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
+													UIPickerViewDataSource {
 	
 	
     
@@ -50,23 +51,21 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate, UIPick
 		return 1
 	}
 	
-	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent
+												component: Int) -> Int {
 		return bookData.count
 	}
 	
-	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int,
+												forComponent component: Int) -> String? {
 		return bookData[row]
 	}
-//
-//    func webViewDidStartLoad(_ webView: UIWebView) {
-//        loading.startAnimating()
-//        print("Loading....")
-//
-//    }
-//
-//    func webViewDidFinishLoad(_ webView: UIWebView) {
-//        loading.stopAnimating()
-//        print("Stopped Loading!")
-//    }
+	
+	// might not be needed if we are using a button to submit but will be useful
+	// to test to see how many chapters there are in a book
+	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int,
+											  inComponent component: Int) {
+		let selectedBook = bookData[row]
+	}
 	
 }
