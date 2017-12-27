@@ -51,8 +51,8 @@ Read our [CONTRIBUTING.md](https://github.com/ThriveCommunityChurch/ThriveChurch
 
 ## Version History
 ### 1.7  —  TBD
-- Fixed an issue where the application would crash when accessing the Notes page
-
+- Fixed an issue where the application would sometimes crash when accessing the Notes page
+- New & Improved Bible Tab performance
 
 ### 1.6  —  Nov 18, 2017
 - UI Improvements
