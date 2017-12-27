@@ -12,8 +12,8 @@ Visit the [download link](https://itunes.apple.com/us/app/thrive-church-official
 
 ## System Requirements
 
-* iPhone running iOS 9.0 or Later
-* iPhone 4S or newer
+* iPhone running iOS 10 or Later
+* iPhone 5 or newer
 * Valid iTunes Account
 
 
