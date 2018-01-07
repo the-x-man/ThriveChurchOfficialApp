@@ -25,7 +25,7 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 	  "query": "Genesis 1:1",
 	  "canonical": "Genesis 1:1",
 	  "passages": [
-		"\\nGenesis 1:1\\n\\n\\nThe Creation of the World\\n\\n[1] In the beginning, God created the heavens and the earth. (ESV)"
+		"\nGenesis 1:1\n\n\nThe Creation of the World\n\n[1] In the beginning, God created the heavens and the earth. (ESV)"
 	  ]
 	}
 	""".data(using: .utf8)!
@@ -88,11 +88,16 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 //			print(encodedJSON)
 //			print(jsonResponse)
 			
+			var dataToString = String(data: jsonResponse, encoding: String.Encoding.utf8)
+			dataToString = stringByRemovingControlCharacters2(string: dataToString!)
+			let ndata = dataToString!.data(using: String.Encoding.utf8)!
+			
 			// The given data was not valid JSON.
 			// Unescaped control character around character 20.
 			let jsonDecoder = JSONDecoder()
-			let decodedJSON = try jsonDecoder.decode(Passage.self, from: jsonResponse)
+			let decodedJSON = try jsonDecoder.decode(Passage.self, from: ndata)
 			print(decodedJSON.passages[0])
+			
 		}
 		catch {
 			print(error)
@@ -100,6 +105,19 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 		
 	
     }
+	
+	func stringByRemovingControlCharacters2(string: String) -> String {
+		let controlChars = NSCharacterSet.controlCharacters
+		var range = string.rangeOfCharacter(from: controlChars)
+		var mutable = string
+		
+		while let removeRange = range {
+			mutable.removeSubrange(removeRange)
+			range = mutable.rangeOfCharacter(from: controlChars)
+		}
+		
+		return mutable
+	}
 	
 //	func simplifyJSON() {
 //
