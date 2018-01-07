@@ -23,32 +23,6 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 	{
 	  "query": "Genesis 1:1",
 	  "canonical": "Genesis 1:1",
-	  "parsed": [
-		[
-		  1001001,
-		  1001001
-		]
-	  ],
-	  "passage_meta": [
-		{
-		  "canonical": "Genesis 1:1",
-		  "chapter_start": [
-			1001001,
-			1001031
-		  ],
-		  "chapter_end": [
-			1001001,
-			1001031
-		  ],
-		  "prev_verse": null,
-		  "next_verse": 1001002,
-		  "prev_chapter": null,
-		  "next_chapter": [
-			1002001,
-			1002025
-		  ]
-		}
-	  ],
 	  "passages": [
 		"\nGenesis 1:1\n\n\nThe Creation of the World\n\n[1] In the beginning, God created the heavens and the earth. (ESV)"
 	  ]
@@ -58,13 +32,18 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 	
 	// structure from the ESV API return
 	// using https://api.esv.org/v3/passage/text/?q=
-	struct Passage: Decodable {
-		var key: String
-		var query: String
-		var canonical: String?
-		var passages: [String]? // array of strings. Each string is a passage
+	
+	struct Scripture: Decodable {
+		var index: String
 	}
-
+	
+	struct Passage: Decodable {
+		var query: String?
+		var canonical: String
+		var passages: [Scripture] // array of strings. Each string is a passage
+	}
+	
+	
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,31 +80,38 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 		
 		//fetchJSON()
 		//atteptToConnectToESV()
-		simplifyJSON()
+//		simplifyJSON()
+		
+//		do {
+//			let decoder = JSONDecoder()
+//			let response = try decoder.decode([Passage].self, from: jsonResponse)
+//			print(response)
+//		} catch let error {
+//			print(error)
+//		}
 	
     }
 	
-	func simplifyJSON() {
-		
-		let decoder = JSONDecoder()
-		do {
-			let passages = try decoder.decode(Passage.self, from: jsonResponse)
-			
-			
-			print("The following products are available:")
-			
-			print("\t\(passages.key) (\(passages.query) query)")
-			if let canonical = passages.canonical {
-				print("\t\t\(canonical)")
-			}
-			
-		}
-		catch {
-			print("Whoops somehting went wrong!")
-		}
-		
-		
-	}
+//	func simplifyJSON() {
+//
+//		let decoder = JSONDecoder()
+//		do {
+//			let passages = try decoder.decode(Passage.self, from: jsonResponse)
+//
+//			print("The following products are available:")
+//
+//			print("\t(\(passages.query) query)")
+//			if let canonical = passages.canonical {
+//				print("\t\t\(canonical)")
+//			}
+//
+//		}
+//		catch {
+//			print("Whoops somehting went wrong!")
+//		}
+//
+//
+//	}
 	
 //	func fetchJSON() {
 //
@@ -247,5 +233,6 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 			// do nothing
 		}
 	}
-	
 }
+
+
