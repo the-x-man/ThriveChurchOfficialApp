@@ -77,13 +77,27 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 		//atteptToConnectToESV()
 //		simplifyJSON()
 		
-//		do {
-//			let decoder = JSONDecoder()
-//			let response = try decoder.decode([Passage].self, from: jsonResponse)
-//			print(response)
-//		} catch let error {
-//			print(error)
-//		}
+	
+//		let genesis1 = Passage(query: "Genesis 1:1", canonical:  "Genesis 1:1", passages: ["\nGenesis 1:1\n\n\nThe Creation of the World\n\n[1] In the beginning, God created the heavens and the earth. (ESV)"])
+		
+		
+		
+		do {
+//			let jsonEncoder = JSONEncoder()
+//			let encodedJSON = try jsonEncoder.encode(genesis1)
+//			print(encodedJSON)
+//			print(jsonResponse)
+			
+			// The given data was not valid JSON.
+			// Unescaped control character around character 20.
+			let jsonDecoder = JSONDecoder()
+			let decodedJSON = try jsonDecoder.decode(Passage.self, from: jsonResponse)
+			print(decodedJSON.passages[0])
+		}
+		catch {
+			print(error)
+		}
+		
 	
     }
 	
