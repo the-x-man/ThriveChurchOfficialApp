@@ -18,6 +18,7 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 	var chapterData: [Int] = [Int]()
 	var selectedBook: String!
 	var numOfChaptersInBook: Int!
+	typealias Codable = Encodable & Decodable
 	
 	let jsonResponse = """
 	{
