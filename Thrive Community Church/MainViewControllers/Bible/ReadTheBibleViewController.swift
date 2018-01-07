@@ -32,17 +32,11 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 	
 	// structure from the ESV API return
 	// using https://api.esv.org/v3/passage/text/?q=
-	
-	struct Scripture: Decodable {
-		var index: String
-	}
-	
-	struct Passage: Decodable {
-		var query: String?
+	struct Passage: Codable {
+		var query: String
 		var canonical: String
-		var passages: [Scripture] // array of strings. Each string is a passage
+		var passages: [String] // array of strings. Each string is a passage
 	}
-	
 	
 	
     override func viewDidLoad() {
