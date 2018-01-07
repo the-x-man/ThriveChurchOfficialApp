@@ -25,7 +25,7 @@ class ReadTheBibleViewController: UIViewController, UIPickerViewDelegate,
 	  "query": "Genesis 1:1",
 	  "canonical": "Genesis 1:1",
 	  "passages": [
-		"\nGenesis 1:1\n\n\nThe Creation of the World\n\n[1] In the beginning, God created the heavens and the earth. (ESV)"
+		"\\nGenesis 1:1\\n\\n\\nThe Creation of the World\\n\\n[1] In the beginning, God created the heavens and the earth. (ESV)"
 	  ]
 	}
 	""".data(using: .utf8)!
