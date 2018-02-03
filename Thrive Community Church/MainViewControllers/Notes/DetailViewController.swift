@@ -12,6 +12,8 @@ import Foundation
 class DetailViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var detailDescriptionLabel: UITextView?
+	var keyboardHeight = 0
+	var keyboardRect: CGRect?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +24,10 @@ class DetailViewController: UIViewController, UITextViewDelegate {
         
         detailViewController = self
 		detailDescriptionLabel?.delegate = self
+		detailDescriptionLabel?.keyboardAppearance = UIKeyboardAppearance.dark
         detailViewController?.becomeFirstResponder()
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         // called when adding / editing an item to the TableViewController in MasterVew
         // Called at application init for notes tab - YES
@@ -44,6 +49,13 @@ class DetailViewController: UIViewController, UITextViewDelegate {
             
         }
     }
+	
+	@objc func keyboardWillShow(_ notification: Notification) {
+		if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+			keyboardRect = keyboardFrame.cgRectValue
+			keyboardHeight = Int((keyboardRect?.height)!)
+		}
+	}
     
     // runs even before the segue happens
     func configureView() {
@@ -66,14 +78,14 @@ class DetailViewController: UIViewController, UITextViewDelegate {
     }
 	
 	func textViewDidBeginEditing(_ textView: UITextView) {
-		if let selectedRange = detailDescriptionLabel?.selectedTextRange {
-			
-			let cursorPosition = detailDescriptionLabel?.offset(from: (detailDescriptionLabel?.beginningOfDocument)!, to: selectedRange.start)
-			
-			let length = (cursorPosition ?? 0) - 1
-			detailDescriptionLabel?.scrollRangeToVisible(NSRange(location: cursorPosition ?? 0, length: length))
-		
-		}
+//		if let selectedRange = detailDescriptionLabel?.selectedTextRange {
+//
+//			let cursorPosition = detailDescriptionLabel?.offset(from: (detailDescriptionLabel?.beginningOfDocument)!, to: selectedRange.start)
+//
+//			let length = (cursorPosition ?? 0) - 1
+//			detailDescriptionLabel?.scrollRangeToVisible(NSRange(location: cursorPosition ?? 0, length: length))
+//
+//		}
 	}
 	
 	func textViewDidChangeSelection(_ textView: UITextView) {
@@ -81,9 +93,28 @@ class DetailViewController: UIViewController, UITextViewDelegate {
 			
 			let cursorPosition = detailDescriptionLabel?.offset(from: (detailDescriptionLabel?.beginningOfDocument)!, to: selectedRange.start)
 			
-			let length = (cursorPosition ?? 0) - 1
-			detailDescriptionLabel?.scrollRangeToVisible(NSRange(location: cursorPosition ?? 0, length: length))
-			}
+			print(cursorPosition!)
+			
+			// capture screen height
+			let screenBounds = UIScreen.main.bounds
+			let screenSize = screenBounds.size
+			let screenHeight = Int(screenSize.height)
+			
+			let topOfKeyboard = screenHeight - ((keyboardHeight) + 1)
+			
+			//detailDescriptionLabel?.beginFloatingCursor(at: CGPoint(x: 0, y: topOfKeyboard))
+			//detailDescriptionLabel?.setContentOffset(CGPoint(x: 0, y: topOfKeyboard), animated: true)
+			
+			print(detailDescriptionLabel)
+			
+			let viewableArea = screenHeight - topOfKeyboard
+			
+			print(Int(viewableArea))
+		
+			// if the cursor goes below the keyboard -- then do something
+				let length = (cursorPosition ?? 0) - 1
+				detailDescriptionLabel?.scrollRangeToVisible(NSRange(location: cursorPosition ?? 0, length: length))
+		}
 	}
 	
     @IBAction func share(_ sender: AnyObject) {
