@@ -2,7 +2,6 @@
 
 This application was creted by Thrive Community Church in Estero, FL for iPhone.
 
-### Current Coverage
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/93736df555dd47b5b6cbf4a6fa544949)](https://www.codacy.com/app/wyattbaggett/ThriveChurchOfficialApp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ThriveCommunityChurch/ThriveChurchOfficialApp&amp;utm_campaign=Badge_Grade)
 
 ## Download Instructions
@@ -12,10 +11,9 @@ Visit the [download link](https://itunes.apple.com/us/app/thrive-church-official
 
 ## System Requirements
 
-* iPhone running iOS 9.0 or Later
-* iPhone 4S or newer
+* iPhone running iOS 10.0 or Later
+* iPhone 5S or newer
 * Valid iTunes Account
-
 
 ## Features
 
@@ -49,6 +47,11 @@ Thank you to everyone who uses this application, we made it for you - to help ma
 Read our [CONTRIBUTING.md](https://github.com/ThriveCommunityChurch/ThriveChurchOfficialApp/blob/master/CONTRIBUTING.md) for more information.
 
 ## Version History
+### 1.6.1  —  Feb 7, 2018 
+- Fixed an issue where the notes page would crash if there were no notes currently saved
+- Fixed an issue where the cursor would completely dissapear when taking a long note
+- Updated Contact information for Thrive FGCU
+
 ### 1.6  —  Nov 18, 2017
 - UI Improvements
 - Supports iPhone X
