@@ -35,6 +35,7 @@ For a full listing of features visit our [Website](http://thrive-fl.org).
 
 * **Debora Lobaina** - QA / Testing
 * **Phil Klopke** -Testing
+* [**Joel Butcher**](https://github.com/joelbutcher) - QA
 
 ## Support & Bug Reports
 Please visit http://thrive-fl.org/app-support/ to submit a Support Ticket OR you can post it as an issue to this repository.
@@ -47,10 +48,13 @@ Thank you to everyone who uses this application, we made it for you - to help ma
 Read our [CONTRIBUTING.md](https://github.com/ThriveCommunityChurch/ThriveChurchOfficialApp/blob/master/CONTRIBUTING.md) for more information.
 
 ## Version History
+### 1.7  —  TBD
+- Fixed an issue where the application would crash when accessing the Notes page
 ### 1.6.1  —  Feb 7, 2018 
 - Fixed an issue where the notes page would crash if there were no notes currently saved
 - Fixed an issue where the cursor would completely dissapear when taking a long note
 - Updated Contact information for Thrive FGCU
+
 
 ### 1.6  —  Nov 18, 2017
 - UI Improvements
