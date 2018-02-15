@@ -49,12 +49,13 @@ Read our [CONTRIBUTING.md](https://github.com/ThriveCommunityChurch/ThriveChurch
 
 ## Version History
 ### 1.7  —  TBD
-- Fixed an issue where the application would crash when accessing the Notes page
+- New Bible Tab Experience
+- Improved Bible Tab Performance
+
 ### 1.6.1  —  Feb 7, 2018 
 - Fixed an issue where the notes page would crash if there were no notes currently saved
 - Fixed an issue where the cursor would completely dissapear when taking a long note
 - Updated Contact information for Thrive FGCU
-
 
 ### 1.6  —  Nov 18, 2017
 - UI Improvements
